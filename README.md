@@ -1,5 +1,5 @@
-# NodeJS Template Project
-*This repository contains a template for nodeJS projects using TypeScript. It also has some dependencies as Express and dotEnv.*
+# Go Barber
+*This repository contains a project called GoBarber, from [@Rocketseat](https://github.com/Rocketseat) course.*
 
 ## 🚀 Getting Started
 
