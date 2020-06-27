@@ -1,11 +1,26 @@
 import { isEqual } from 'date-fns';
 import Appointment from '../models/Appointment';
 
+interface CreateAppointmentDTO {
+  provider: string;
+  date: Date;
+}
+
 class AppointmentRepository {
   private _appointments: Appointment[];
 
   constructor() {
     this._appointments = [];
+  }
+
+  /**
+   *
+   *
+   * @returns {Appointment[]}
+   * @memberof AppointmentRepository
+   */
+  public all(): Appointment[] {
+    return this._appointments;
   }
 
   /**
@@ -15,8 +30,8 @@ class AppointmentRepository {
    * @returns {Appointment}
    * @memberof AppointmentRepository
    */
-  public create(provider: string, date: Date): Appointment {
-    const appointment = new Appointment(provider, date);
+  public create({ provider, date }: CreateAppointmentDTO): Appointment {
+    const appointment = new Appointment({ provider, date });
 
     this._appointments.push(appointment);
 
