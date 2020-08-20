@@ -32,7 +32,8 @@
                 "ts": "never"
             }
         ],
-        "no-underscore-dangle": ["error", { "allowAfterThis": true }]
+        "no-underscore-dangle": ["error", { "allowAfterThis": true }],
+        "camelcase": "off"
     },
     "settings": {
         "import/resolver": {
