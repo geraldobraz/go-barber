@@ -1,4 +1,6 @@
 # Go Barber
+
+## 🚧👷🏻‍♂️ Under Construction ...
 *This repository contains a project called GoBarber, from [@Rocketseat](https://github.com/Rocketseat) course.*
 
 ## 🚀 Getting Started
@@ -45,7 +47,7 @@ choco install nodejs
 
 ### 📥 Installing dependencies
 
-Inside de project's folder, run:
+Inside the project's folder, run:
 
 ```
 yarn
@@ -60,6 +62,7 @@ yarn dev:server
 ## 🛠 Built With
 
 * [Node](https://nodejs.org/) - JavaScript runtime environment
+* [ReactJs](https://reactjs.org/) - A declarative, efficient, and flexible JavaScript library for building user interfaces.
 * [Yarn](https://yarnpkg.com/) - Package Manager
 * [Express](https://expressjs.com/) - Web framework used NodeJS
 * [TypeScript](https://www.typescriptlang.org/) - Typed Superset of JavaScript - used as a development dependency
