@@ -8,7 +8,8 @@ import logoImg from '../../assets/logo.svg';
 import Input from '../../components/input';
 import Button from '../../components/Button';
 import getValidationErrors from '../../utils/getValidationErrors';
-import { useAuth } from '../../hooks/AuthContext';
+import { useAuth } from '../../hooks/auth';
+import { useToast } from '../../hooks/toast';
 
 interface SignFormData {
   email: string;
@@ -18,6 +19,7 @@ interface SignFormData {
 const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { signIn } = useAuth();
+  const { addToast } = useToast();
 
   const handleSubmit = useCallback(
     async (data: SignFormData) => {
@@ -35,17 +37,24 @@ const SignIn: React.FC = () => {
           abortEarly: false,
         });
 
-        signIn({
+        await signIn({
           email: data.email,
           password: data.password,
         });
       } catch (err) {
-        const errors = getValidationErrors(err);
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(err);
+          formRef.current?.setErrors(errors);
+        }
 
-        formRef.current?.setErrors(errors);
+        addToast({
+          type: 'error',
+          title: 'Authentication error',
+          description: 'Error during login, please check your credentials',
+        });
       }
     },
-    [signIn],
+    [signIn, addToast],
   );
 
   return (
