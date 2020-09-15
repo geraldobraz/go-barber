@@ -41,7 +41,9 @@
           "tsx": "never"
         }
       ],
-      "prettier/prettier": "error"
+      "prettier/prettier": "error",
+      "no-use-before-define": "off",
+      "@typescript-eslint/no-use-before-define": "off"
     },
     "settings": {
       "import/resolver": {
