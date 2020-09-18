@@ -14,6 +14,7 @@ import { useNavigation } from '@react-navigation/native';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
 import { Container, Title, BackToSignIn, BackToSignInText } from './styles';
+import api from '../../services/api';
 
 import Button from '../../components/Button';
 import Input from '../../components/Input';
@@ -32,35 +33,45 @@ const SignUp: React.FC = () => {
   const emailInputRef = useRef<TextInput>(null);
   const passwordInputRef = useRef<TextInput>(null);
 
-  const handleSignUp = useCallback(async (data: SignUpFormData) => {
-    try {
-      formRef.current?.setErrors({});
+  const handleSignUp = useCallback(
+    async (data: SignUpFormData) => {
+      try {
+        formRef.current?.setErrors({});
 
-      const schema = Yup.object().shape({
-        name: Yup.string().required('Name is required'),
-        email: Yup.string()
-          .required('Email is required')
-          .email('Please use a valid email'),
-        password: Yup.string().min(
-          6,
-          'The password must have minimum of 6 digits',
-        ),
-      });
+        const schema = Yup.object().shape({
+          name: Yup.string().required('Name is required'),
+          email: Yup.string()
+            .required('Email is required')
+            .email('Please use a valid email'),
+          password: Yup.string().min(
+            6,
+            'The password must have minimum of 6 digits',
+          ),
+        });
 
-      await schema.validate(data, {
-        abortEarly: false,
-      });
-    } catch (err) {
-      const errors = getValidationErrors(err);
+        await schema.validate(data, {
+          abortEarly: false,
+        });
 
-      formRef.current?.setErrors(errors);
+        await api.post('/users', data);
+        Alert.alert(
+          'Registration completed 🎉',
+          'Now you can do login and use the application',
+        );
+        navigation.goBack();
+      } catch (err) {
+        const errors = getValidationErrors(err);
 
-      Alert.alert(
-        'Error on registration!',
-        'An error Occurred during user registration.',
-      );
-    }
-  }, []);
+        formRef.current?.setErrors(errors);
+
+        Alert.alert(
+          'Error on registration!',
+          'An error Occurred during user registration.',
+        );
+      }
+    },
+    [navigation],
+  );
 
   return (
     <>
