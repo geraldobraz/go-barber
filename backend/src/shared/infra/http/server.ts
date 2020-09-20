@@ -4,11 +4,13 @@ import cors from 'cors';
 import 'express-async-errors';
 
 import uploadConfig from '@config/upload';
-import handleErrors from '@shared/errors/AppError';
+import handleErrors from '@shared/errors/handleErrors';
 import routes from './routes';
 import '@shared/infra/typeorm';
+import '@shared/container';
 
 const app = express();
+
 app.use(cors());
 const PORT = 3333;
 app.use(express.json());

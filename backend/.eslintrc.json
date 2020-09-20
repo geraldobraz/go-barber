@@ -36,7 +36,8 @@
         "camelcase": "off",
         "@typescript-eslint/no-unused-vars": ["error", {
           "argsIgnorePattern": "_"
-        }]
+        }],
+        "no-useless-constructor": "off"
     },
     "settings": {
         "import/resolver": {
