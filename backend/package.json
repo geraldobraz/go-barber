@@ -9,7 +9,8 @@
     "build": "tsc",
     "dev:server": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/shared/infra/http/server.ts",
     "start": "ts-node-dev src/shared/infra/http/server.ts",
-    "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
+    "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "test": "jest"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -43,7 +44,9 @@
     "eslint-import-resolver-typescript": "^2.0.0",
     "eslint-plugin-import": "^2.21.2",
     "eslint-plugin-prettier": "^3.1.4",
+    "jest": "^26.4.2",
     "prettier": "^2.0.5",
+    "ts-jest": "^26.4.0",
     "ts-node-dev": "^1.0.0-pre.49",
     "tsconfig-paths": "^3.9.0",
     "typescript": "^3.9.5"
