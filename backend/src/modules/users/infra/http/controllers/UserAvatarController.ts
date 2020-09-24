@@ -11,6 +11,8 @@ export default class UserAvatarController {
       avatarFilename: request.file.filename,
     });
 
+    delete user.password;
+
     return response.json(user);
   }
 }
