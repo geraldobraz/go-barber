@@ -4,7 +4,7 @@ import User from '../infra/typeorm/entities/User';
 import IUsersRepository from '../repositories/IUsersRepository';
 import IHashProvider from '../providers/HashProvider/models/IHashProvider';
 
-interface RequestDTO {
+interface IRequest {
   name: string;
   email: string;
   password: string;
@@ -20,7 +20,7 @@ class CreateUserService {
     private hashProvider: IHashProvider,
   ) {}
 
-  public async execute({ name, email, password }: RequestDTO): Promise<User> {
+  public async execute({ name, email, password }: IRequest): Promise<User> {
     const checkIfUserExists = await this.usersRepository.findByEmail(email);
 
     if (checkIfUserExists) {
