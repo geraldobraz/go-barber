@@ -1,13 +1,10 @@
-import path from 'path';
-import { promises as fs } from 'fs';
-import uploadConfig from '@config/upload';
 import AppError from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
 import IStorageProvider from '@shared/container/providers/StorageProvider/models/IStorageProvider';
 import User from '../infra/typeorm/entities/User';
 import IUsersRepository from '../repositories/IUsersRepository';
 
-interface RequestDTO {
+interface IRequest {
   userId: string;
   avatarFilename: string;
 }
@@ -21,7 +18,7 @@ class UpdateUserAvatarService {
     private storageProvider: IStorageProvider,
   ) {}
 
-  public async execute({ userId, avatarFilename }: RequestDTO): Promise<User> {
+  public async execute({ userId, avatarFilename }: IRequest): Promise<User> {
     const user = await this.usersRepository.findById(userId);
 
     if (!user) {

@@ -5,14 +5,19 @@ import UpdateUserAvatarService from './UpdateUserAvatarService';
 import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
 
 describe('UpdateUserAvatar', () => {
-  it('should be able to update avatar from an user', async () => {
-    const fakeUsersRepository = new FakeUsersRepository();
-    const fakeStorageProvider = new FakeStorageProvider();
-    const updateUserAvatar = new UpdateUserAvatarService(
+  let fakeUsersRepository: FakeUsersRepository;
+  let fakeStorageProvider: FakeStorageProvider;
+  let updateUserAvatar: UpdateUserAvatarService;
+  beforeEach(() => {
+    fakeUsersRepository = new FakeUsersRepository();
+    fakeStorageProvider = new FakeStorageProvider();
+    updateUserAvatar = new UpdateUserAvatarService(
       fakeUsersRepository,
       fakeStorageProvider,
     );
+  });
 
+  it('should be able to update avatar from an user', async () => {
     const user = await fakeUsersRepository.create({
       name: 'John Doe',
       email: 'john.doe@email.com',
@@ -27,13 +32,6 @@ describe('UpdateUserAvatar', () => {
     expect(user.avatar).toBe('avatar.jpg');
   });
   it('should not be able to update avatar from a non existing user', async () => {
-    const fakeUsersRepository = new FakeUsersRepository();
-    const fakeStorageProvider = new FakeStorageProvider();
-    const updateUserAvatar = new UpdateUserAvatarService(
-      fakeUsersRepository,
-      fakeStorageProvider,
-    );
-
     expect(
       updateUserAvatar.execute({
         userId: 'non-existing-user',
@@ -43,16 +41,7 @@ describe('UpdateUserAvatar', () => {
   });
 
   it('should delete old avatar when updating new one', async () => {
-    const fakeUsersRepository = new FakeUsersRepository();
-    const fakeStorageProvider = new FakeStorageProvider();
-
     const deleteFile = jest.spyOn(fakeStorageProvider, 'deleteFile');
-
-    const updateUserAvatar = new UpdateUserAvatarService(
-      fakeUsersRepository,
-      fakeStorageProvider,
-    );
-
     const user = await fakeUsersRepository.create({
       name: 'John Doe',
       email: 'john.doe@email.com',

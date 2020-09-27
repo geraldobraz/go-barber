@@ -6,16 +6,16 @@ import User from '../infra/typeorm/entities/User';
 import IUsersRepository from '../repositories/IUsersRepository';
 import IHashProvider from '../providers/HashProvider/models/IHashProvider';
 
-interface RequestDTO {
+interface IRequest {
   email: string;
   password: string;
 }
-interface authResponse {
+interface IAuthResponse {
   user: User;
   token: string;
 }
 
-interface UserData {
+interface IUserData {
   id: string;
   name: string;
   password: string;
@@ -30,7 +30,7 @@ class AuthenticateUserService {
     private hashProvider: IHashProvider,
   ) {}
 
-  public async execute({ email, password }: RequestDTO): Promise<authResponse> {
+  public async execute({ email, password }: IRequest): Promise<IAuthResponse> {
     const user = await this.usersRepository.findByEmail(email);
 
     if (!user) {
