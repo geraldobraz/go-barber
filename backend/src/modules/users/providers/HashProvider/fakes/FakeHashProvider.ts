@@ -1,12 +1,12 @@
 import IHashProvider from '../models/IHashProvider';
 
 class FakeHashProvider implements IHashProvider {
-  generateHash(payload: string): Promise<string> {
-    return Promise.resolve(payload);
+  public async generateHash(payload: string): Promise<string> {
+    return payload;
   }
 
-  compareHash(payload: string, hashed: string): Promise<boolean> {
-    return Promise.resolve(payload === hashed);
+  public async compareHash(payload: string, hashed: string): Promise<boolean> {
+    return payload === hashed;
   }
 }
 
