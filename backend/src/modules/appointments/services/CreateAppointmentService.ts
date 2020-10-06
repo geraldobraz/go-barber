@@ -5,7 +5,7 @@ import Appointment from '../infra/typeorm/entities/Appointment';
 import IAppointmentsRepository from '../repositories/IAppoitmentsRepository';
 
 interface IRequest {
-  providerId: string;
+  provider_id: string;
   userId: string;
   date: Date;
 }
@@ -18,7 +18,7 @@ class CreateAppointmentService {
   ) {}
 
   public async execute({
-    providerId,
+    provider_id,
     userId,
     date,
   }: IRequest): Promise<Appointment> {
@@ -28,7 +28,7 @@ class CreateAppointmentService {
       throw new AppError('You can not create an appointment on a past date');
     }
 
-    if (userId === providerId) {
+    if (userId === provider_id) {
       throw new AppError('You can not create an appointment with yourself');
     }
 
@@ -49,7 +49,7 @@ class CreateAppointmentService {
     }
 
     const appointment = await this.appointmentsRepository.create({
-      provider_id: providerId,
+      provider_id,
       user_id: userId,
       date: appointmentDate,
     });

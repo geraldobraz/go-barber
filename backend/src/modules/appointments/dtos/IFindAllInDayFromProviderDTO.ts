@@ -1,5 +1,5 @@
 export default interface IFindAllInDayFromProviderDTO {
-  providerId: string;
+  provider_id: string;
   day: number;
   month: number;
   year: number;
