@@ -69,9 +69,7 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-# IMPORTANT DISCOMMENT LINES 73 AND 74 WHEN USING .ENV
-# .env
-# .env.test
+.env
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -107,3 +105,4 @@ dist
 # Temporary files
 tmp/*
 !tmp/.gitkeep
+
