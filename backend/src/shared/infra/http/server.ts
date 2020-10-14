@@ -1,7 +1,9 @@
 import 'reflect-metadata';
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import 'express-async-errors';
+import { errors } from 'celebrate';
 
 import uploadConfig from '@config/upload';
 import handleErrors from '@shared/errors/handleErrors';
@@ -10,12 +12,13 @@ import '@shared/infra/typeorm';
 import '@shared/container';
 
 const app = express();
+const { PORT } = process.env;
 
 app.use(cors());
-const PORT = 3333;
 app.use(express.json());
 app.use('/files', express.static(uploadConfig.uploadsFolder));
 app.use(routes);
+app.use(errors());
 app.use(handleErrors);
 
 app.listen(PORT, () => {
