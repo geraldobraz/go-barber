@@ -5,7 +5,7 @@ import IHashProvider from '../providers/HashProvider/models/IHashProvider';
 import IUsersRepository from '../repositories/IUsersRepository';
 
 interface IRequest {
-  userId: string;
+  user_id: string;
   name: string;
   email: string;
   oldPassword?: string;
@@ -22,13 +22,13 @@ class UpdateProfileService {
   ) {}
 
   public async execute({
-    userId,
+    user_id,
     name,
     email,
     password,
     oldPassword,
   }: IRequest): Promise<User> {
-    const user = await this.usersRepository.findById(userId);
+    const user = await this.usersRepository.findById(user_id);
 
     if (!user) {
       throw new AppError('User not found');

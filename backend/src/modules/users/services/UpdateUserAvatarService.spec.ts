@@ -25,7 +25,7 @@ describe('UpdateUserAvatar', () => {
     });
 
     await updateUserAvatar.execute({
-      userId: user.id,
+      user_id: user.id,
       avatarFilename: 'avatar.jpg',
     });
 
@@ -34,7 +34,7 @@ describe('UpdateUserAvatar', () => {
   it('should not be able to update avatar from a non existing user', async () => {
     expect(
       updateUserAvatar.execute({
-        userId: 'non-existing-user',
+        user_id: 'non-existing-user',
         avatarFilename: 'avatar.jpg',
       }),
     ).rejects.toBeInstanceOf(AppError);
@@ -49,12 +49,12 @@ describe('UpdateUserAvatar', () => {
     });
 
     await updateUserAvatar.execute({
-      userId: user.id,
+      user_id: user.id,
       avatarFilename: 'avatar.jpg',
     });
 
     await updateUserAvatar.execute({
-      userId: user.id,
+      user_id: user.id,
       avatarFilename: 'avatar2.jpg',
     });
 

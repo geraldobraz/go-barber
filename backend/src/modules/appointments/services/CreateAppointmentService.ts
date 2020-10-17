@@ -7,7 +7,7 @@ import IAppointmentsRepository from '../repositories/IAppoitmentsRepository';
 
 interface IRequest {
   provider_id: string;
-  userId: string;
+  user_id: string;
   date: Date;
 }
 
@@ -23,7 +23,7 @@ class CreateAppointmentService {
 
   public async execute({
     provider_id,
-    userId,
+    user_id,
     date,
   }: IRequest): Promise<Appointment> {
     const appointmentDate: Date = startOfHour(date);
@@ -32,7 +32,7 @@ class CreateAppointmentService {
       throw new AppError('You can not create an appointment on a past date');
     }
 
-    if (userId === provider_id) {
+    if (user_id === provider_id) {
       throw new AppError('You can not create an appointment with yourself');
     }
 
@@ -54,7 +54,7 @@ class CreateAppointmentService {
 
     const appointment = await this.appointmentsRepository.create({
       provider_id,
-      user_id: userId,
+      user_id,
       date: appointmentDate,
     });
 
