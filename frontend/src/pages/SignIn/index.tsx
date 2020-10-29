@@ -6,7 +6,7 @@ import { FormHandles } from '@unform/core';
 import { Link, useHistory } from 'react-router-dom';
 import { Container, Content, Background, AnimationContainer } from './styles';
 import logoImg from '../../assets/logo.svg';
-import Input from '../../components/input';
+import Input from '../../components/Input';
 import Button from '../../components/Button';
 import getValidationErrors from '../../utils/getValidationErrors';
 import { useAuth } from '../../hooks/auth';

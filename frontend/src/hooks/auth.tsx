@@ -3,6 +3,7 @@ import api from '../services/apiClient';
 
 interface User {
   id: string;
+  email: string;
   avatar_url: string;
   name: string;
 }
