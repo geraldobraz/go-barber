@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { ChangeEvent, useCallback, useRef } from 'react';
 import { FiMail, FiLock, FiUser, FiCamera, FiArrowLeft } from 'react-icons/fi';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
@@ -15,13 +15,15 @@ import { useAuth } from '../../hooks/auth';
 interface ProfileFormData {
   name: string;
   email: string;
+  old_password: string;
   password: string;
+  password_confirmation: string;
 }
 
 const Profile: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   const history = useHistory();
 
   const handleSubmit = useCallback(
@@ -34,25 +36,55 @@ const Profile: React.FC = () => {
           email: Yup.string()
             .required('Email is required')
             .email('Please use a valid email'),
-          password: Yup.string().min(
-            6,
-            'The password must have minimum of 6 digits',
-          ),
+          old_password: Yup.string(),
+          password: Yup.string().when('old_password', {
+            is: val => !!val.length,
+            then: Yup.string().required('Required Field'),
+            otherwise: Yup.string(),
+          }),
+          password_confirmation: Yup.string()
+            .when('old_password', {
+              is: val => !!val.length,
+              then: Yup.string().required('Required Field'),
+              otherwise: Yup.string(),
+            })
+            .oneOf([Yup.ref('password')], 'The passwords does not match'),
         });
 
         await schema.validate(data, {
           abortEarly: false,
         });
 
-        await api.post('/users', data);
+        const {
+          name,
+          email,
+          old_password,
+          password,
+          password_confirmation,
+        } = data;
 
-        history.push('/');
+        const formData = {
+          name,
+          email,
+          ...(data.old_password
+            ? {
+                old_password,
+                password,
+                password_confirmation,
+              }
+            : {}),
+        };
+
+        const response = await api.put('/profile', formData);
+
+        updateUser(response.data);
+
+        history.push('/dashboard');
 
         addToast({
           type: 'success',
-          title: 'Congratulations 🎉 !',
-          description:
-            'User successfully registered. Now you can use the GoBarber.',
+          title: 'Profile Updated 🎉 !',
+          description: 'Your informations were successfully updated.',
         });
       } catch (err) {
         const errors = getValidationErrors(err);
@@ -61,12 +93,30 @@ const Profile: React.FC = () => {
 
         addToast({
           type: 'error',
-          title: 'Error on registration!',
-          description: 'An error Occurred during user registration.',
+          title: 'Error on information updating!',
+          description: 'An error Occurred during profile update.',
         });
       }
     },
     [addToast, history],
+  );
+
+  const handleAvatarChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files) {
+        const data = new FormData();
+
+        data.append('avatar', e.target.files[0]);
+        api.patch('/users/avatar', data).then(response => {
+          updateUser(response.data);
+          addToast({
+            type: 'success',
+            title: 'Avatar was updated',
+          });
+        });
+      }
+    },
+    [addToast, updateUser],
   );
 
   return (
@@ -90,9 +140,10 @@ const Profile: React.FC = () => {
         >
           <AvatarInput>
             <img src={user.avatar_url} alt={user.name} />
-            <button type="button">
+            <label htmlFor="avatar">
               <FiCamera />
-            </button>
+              <input type="file" id="avatar" onChange={handleAvatarChange} />
+            </label>
           </AvatarInput>
 
           <h1>My Profile</h1>
