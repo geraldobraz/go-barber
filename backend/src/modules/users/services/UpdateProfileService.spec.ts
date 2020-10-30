@@ -69,7 +69,7 @@ describe('UpdateProfile', () => {
       user_id: user.id,
       name: 'John Trê',
       email: 'john.tre@email.com',
-      oldPassword: '123456',
+      old_password: '123456',
       password: '123123',
     });
 
@@ -105,7 +105,7 @@ describe('UpdateProfile', () => {
         user_id: user.id,
         name: 'John Trê',
         email: 'john.tre@email.com',
-        oldPassword: 'wrong-old-password',
+        old_password: 'wrong-old-password',
         password: '123123',
       }),
     ).rejects.toBeInstanceOf(AppError);
@@ -117,7 +117,7 @@ describe('UpdateProfile', () => {
         user_id: 'non-existing-user-id',
         name: 'John Trê',
         email: 'john.tre@email.com',
-        oldPassword: 'wrong-old-password',
+        old_password: 'wrong-old-password',
         password: '123123',
       }),
     ).rejects.toBeInstanceOf(AppError);

@@ -7,7 +7,7 @@ import { container } from 'tsyringe';
 export default class ProfileController {
   public async update(request: Request, response: Response): Promise<Response> {
     const { id: user_id } = request.user;
-    const { name, email, password, oldPassword } = request.body;
+    const { name, email, password, old_password } = request.body;
 
     const updateProfileService = container.resolve(UpdateProfileService);
 
@@ -16,7 +16,7 @@ export default class ProfileController {
       name,
       email,
       password,
-      oldPassword,
+      old_password,
     });
 
     return response.json(classToClass(user));
